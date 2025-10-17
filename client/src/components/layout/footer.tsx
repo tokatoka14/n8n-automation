@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { georgianContent } from "@/lib/georgian-content";
+import NexFlowLogo from "./07da2836-21bb-40da-a81a-bef79cc863c9.png";
 
 export default function Footer() {
   return (
@@ -9,7 +10,7 @@ export default function Footer() {
           {/* Company Info */}
           <div className="md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <img src="/07da2836-21bb-40da-a81a-bef79cc863c9.png" alt="NexFlow logo" className="w-8 h-8 rounded" />
+              <img src={NexFlowLogo} alt="NexFlow logo" className="w-8 h-8 rounded" />
               <span className="text-xl font-bold font-firago">NexFlow</span>
             </div>
             <p className="text-background/80 mb-4 max-w-md font-firago">

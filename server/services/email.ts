@@ -94,7 +94,7 @@ export async function sendOrderConfirmationEmail(
     <p><strong>შეკვეთის ID:</strong> ${orderId}</p>
     <p>ჩვენ მალე დაგიკავშირდებით პროექტის დეტალების განსახილველად.</p>
     <br>
-    <p>პატივისცემით,<br>n8n ავტომატიზაციის გუნდი</p>
+    <p>პატივისცემით,<br>NexFlow გუნდი</p>
   `;
 
   return sendEmail({

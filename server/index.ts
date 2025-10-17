@@ -1,7 +1,18 @@
 import express, { type Request, Response, NextFunction } from "express";
-// Load environment variables from .env in development
+// Load environment variables from .env or env in development
 import dotenv from "dotenv";
+import fs from "fs";
+import path from "path";
+
+// Load standard .env first
 dotenv.config({ override: true });
+// Additionally load root "env" file if it exists (committed format)
+(() => {
+  const altEnvPath = path.resolve(process.cwd(), "env");
+  if (fs.existsSync(altEnvPath)) {
+    dotenv.config({ path: altEnvPath, override: true });
+  }
+})();
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { testGmailSMTPConnection } from './services/email';

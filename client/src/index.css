@@ -3,6 +3,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom font: Dachi The Lynx */
+@font-face {
+  font-family: 'DachiTheLynx';
+  src: url('/fonts/dachi.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-dachi {
+  font-family: 'DachiTheLynx', 'FiraGO', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
 :root {
   --radius: 12px;
   --background: hsl(215, 50%, 98%);

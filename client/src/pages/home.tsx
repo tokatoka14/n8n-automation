@@ -79,9 +79,9 @@ export default function Home() {
             animate="visible"
           >
             <motion.div variants={itemVariants}>
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight font-firago">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight font-dachi">
                 გახადე ავტომატიზირებული<br/>
-                <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent font-dachi">
                   შენი ბიზნეს პროცესები
                 </span>
               </h1>

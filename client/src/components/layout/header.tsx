@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { georgianContent } from "@/lib/georgian-content";
+import NexFlowLogo from "./07da2836-21bb-40da-a81a-bef79cc863c9.png";
 
 export default function Header() {
   const [location] = useLocation();
@@ -25,7 +26,7 @@ export default function Header() {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center space-x-2">
-              <img src="/07da2836-21bb-40da-a81a-bef79cc863c9.png" alt="NexFlow logo" className="w-8 h-8 rounded" />
+              <img src={NexFlowLogo} alt="NexFlow logo" className="w-8 h-8 rounded" />
               <span className="text-xl font-bold font-firago">NexFlow</span>
             </Link>
           </div>

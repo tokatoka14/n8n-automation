@@ -192,7 +192,7 @@ export default function Services() {
                   <DialogTrigger asChild>
                     <Button 
                       variant="ghost" 
-                      className="text-primary hover:text-primary/80 font-medium transition-colors duration-200 p-0 h-auto font-firago"
+                      className="text-primary hover:text-primary/80 font-medium p-0 h-auto font-firago transition-transform duration-200 hover:scale-105 hover:-translate-y-0.5"
                       data-testid={`button-learn-more-${index}`}
                     >
                       {georgianContent.services.items[0].cta} →
@@ -224,11 +224,8 @@ export default function Services() {
                       </div>
 
                       <div className="flex gap-4 pt-4">
-                        <Button className="font-firago" data-testid={`button-order-${index}`}>
-                          შეკვეთის გაფორმება
-                        </Button>
-                        <Button variant="outline" className="font-firago">
-                          მეტი ინფორმაცია
+                        <Button asChild className="font-firago transition-transform duration-200 hover:scale-105" data-testid={`button-order-${index}`}>
+                          <Link href="/order">შეკვეთის გაფორმება</Link>
                         </Button>
                       </div>
                     </div>

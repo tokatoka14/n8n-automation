@@ -6,8 +6,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
+// Removed select components for step 2
 import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Badge } from "@/components/ui/badge";
@@ -26,12 +25,12 @@ const formSchema = z.object({
   company: z.string().optional(),
   projectName: z.string().min(2, "Project name must be at least 2 characters"),
   
-  // Step 2: Automation type
-  automationType: z.enum(["whatsapp_chatbot", "crm_integration", "email_automation", "file_sync", "custom_workflow"]),
-  customDescription: z.string().optional(),
+  // Step 2: Only description; automation type fixed to custom_workflow
+  automationType: z.literal("custom_workflow"),
+  customDescription: z.string().min(10, "Please provide a short project description (min 10 chars)"),
   
-  // Step 3: Integrations
-  integrations: z.array(z.string()).min(1, "Please select at least one integration"),
+  // Removed Integrations step
+  integrations: z.array(z.string()).optional(),
   hasCredentials: z.record(z.boolean()).optional(),
   
   // Step 4: Files
@@ -45,11 +44,11 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const TOTAL_STEPS = 6;
+const TOTAL_STEPS = 5;
 
 export default function OrderWizard() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [showTooltip, setShowTooltip] = useState<string | null>(null);
+  // Tooltip removed with select
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [orderId, setOrderId] = useState<string>("");
@@ -65,7 +64,7 @@ export default function OrderWizard() {
       phone: "",
       company: "",
       projectName: "",
-      automationType: undefined,
+      automationType: "custom_workflow",
       customDescription: "",
       integrations: [],
       hasCredentials: {},
@@ -162,22 +161,15 @@ export default function OrderWizard() {
   const getFieldsForStep = (step: number): (keyof FormData)[] => {
     switch (step) {
       case 1: return ['fullName', 'email', 'projectName'];
-      case 2: return ['automationType'];
-      case 3: return ['integrations'];
+      case 2: return ['customDescription'];
+      case 3: return [];
       case 4: return [];
       case 5: return [];
       default: return [];
     }
   };
 
-  const handleAutomationTypeChange = (value: string) => {
-    form.setValue('automationType', value as any);
-    setShowTooltip(value);
-    
-    if (value !== 'custom_workflow') {
-      form.setValue('customDescription', '');
-    }
-  };
+  // No automation type selector; always custom_workflow
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
@@ -188,10 +180,7 @@ export default function OrderWizard() {
     setUploadedFiles(prev => prev.filter((_, i) => i !== index));
   };
 
-  const integrationOptions = [
-    "Google Sheets", "Airtable", "HubSpot", "Stripe", "Meta/WhatsApp", 
-    "Telegram", "Google Drive", "Dropbox", "MySQL", "PostgreSQL", "Webhook"
-  ];
+  // Integrations step removed
 
   if (isSubmitted) {
     return (
@@ -332,137 +321,37 @@ export default function OrderWizard() {
               </Card>
             )}
 
-            {/* Step 2: Automation Type */}
+            {/* Step 2: Description only */}
             {currentStep === 2 && (
               <Card>
                 <CardContent className="pt-6">
-                  <h3 className="text-2xl font-semibold text-foreground mb-6">Select Automation Type</h3>
-                  
+                  <h3 className="text-2xl font-semibold text-foreground mb-6">Short Project Description</h3>
                   <FormField
                     control={form.control}
-                    name="automationType"
+                    name="customDescription"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Type of Automation *</FormLabel>
-                        <Select 
-                          onValueChange={handleAutomationTypeChange} 
-                          value={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger data-testid="select-automation-type">
-                              <SelectValue placeholder="Select automation type" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="whatsapp_chatbot">WhatsApp/Messenger chatbot</SelectItem>
-                            <SelectItem value="crm_integration">CRM integration</SelectItem>
-                            <SelectItem value="email_automation">Email automation</SelectItem>
-                            <SelectItem value="file_sync">File sync / ETL</SelectItem>
-                            <SelectItem value="custom_workflow">Custom workflow - explain</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <FormLabel>Short Project Description *</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Please describe your project and what you want automated..." 
+                            className="h-32 resize-none"
+                            {...field} 
+                            data-testid="textarea-custom-description"
+                          />
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-
-                  {showTooltip && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="mt-4 p-4 bg-muted/50 rounded-lg"
-                    >
-                      <p className="text-sm text-muted-foreground font-firago">
-                        {georgianContent.order.tooltips[showTooltip as keyof typeof georgianContent.order.tooltips]}
-                      </p>
-                    </motion.div>
-                  )}
-
-                  {form.watch('automationType') === 'custom_workflow' && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      className="mt-4"
-                    >
-                      <FormField
-                        control={form.control}
-                        name="customDescription"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Short Project Description *</FormLabel>
-                            <FormControl>
-                              <Textarea 
-                                placeholder="Please describe your custom workflow requirements..." 
-                                className="h-24 resize-none"
-                                {...field} 
-                                data-testid="textarea-custom-description"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </motion.div>
-                  )}
                 </CardContent>
               </Card>
             )}
 
-            {/* Step 3: Integrations */}
+            {/* Step 3 removed */}
+
+            {/* Step 3: Files */}
             {currentStep === 3 && (
-              <Card>
-                <CardContent className="pt-6">
-                  <h3 className="text-2xl font-semibold text-foreground mb-6">Integrations & Data</h3>
-                  
-                  <FormField
-                    control={form.control}
-                    name="integrations"
-                    render={() => (
-                      <FormItem>
-                        <FormLabel>Integrations (select multiple) *</FormLabel>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                          {integrationOptions.map((integration) => (
-                            <FormField
-                              key={integration}
-                              control={form.control}
-                              name="integrations"
-                              render={({ field }) => (
-                                <FormItem
-                                  className="flex flex-row items-start space-x-3 space-y-0"
-                                >
-                                  <FormControl>
-                                    <Checkbox
-                                      checked={field.value?.includes(integration)}
-                                      onCheckedChange={(checked) => {
-                                        return checked
-                                          ? field.onChange([...field.value, integration])
-                                          : field.onChange(
-                                              field.value?.filter(
-                                                (value) => value !== integration
-                                              )
-                                            )
-                                      }}
-                                      data-testid={`checkbox-${integration.toLowerCase()}`}
-                                    />
-                                  </FormControl>
-                                  <FormLabel className="text-sm font-normal">
-                                    {integration}
-                                  </FormLabel>
-                                </FormItem>
-                              )}
-                            />
-                          ))}
-                        </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Step 4: Files */}
-            {currentStep === 4 && (
               <Card>
                 <CardContent className="pt-6">
                   <h3 className="text-2xl font-semibold text-foreground mb-6">Attach Files & Examples</h3>
@@ -536,8 +425,8 @@ export default function OrderWizard() {
               </Card>
             )}
 
-            {/* Step 5: Timeline */}
-            {currentStep === 5 && (
+            {/* Step 4: Timeline */}
+            {currentStep === 4 && (
               <Card>
                 <CardContent className="pt-6">
                   <h3 className="text-2xl font-semibold text-foreground mb-6">Timeline & Priority</h3>
@@ -619,8 +508,8 @@ export default function OrderWizard() {
               </Card>
             )}
 
-            {/* Step 6: Review */}
-            {currentStep === 6 && (
+            {/* Step 5: Review */}
+            {currentStep === 5 && (
               <Card>
                 <CardContent className="pt-6">
                   <h3 className="text-2xl font-semibold text-foreground mb-6">Review & Submit</h3>
@@ -642,7 +531,6 @@ export default function OrderWizard() {
                         <h4 className="font-semibold mb-2">Automation</h4>
                         <div className="space-y-2 text-sm">
                           <p><strong>Type:</strong> {form.watch('automationType')?.replace('_', ' ')}</p>
-                          <p><strong>Integrations:</strong> {form.watch('integrations')?.join(', ')}</p>
                           <p><strong>Priority:</strong> {form.watch('deliverySpeed')}</p>
                           <p><strong>Files:</strong> {uploadedFiles.length} uploaded</p>
                         </div>
