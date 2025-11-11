@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Application } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertOrderSchema, updateOrderSchema, type AttachedFile } from "@shared/schema";
@@ -23,7 +23,7 @@ const upload = multer({
   }
 });
 
-export async function registerRoutes(app: Express): Promise<Server> {
+export async function registerRoutes(app: Application): Promise<Server> {
   // Order management routes
   app.post("/api/orders", upload.array('files', 5), async (req, res) => {
     /**

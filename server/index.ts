@@ -1,4 +1,4 @@
-import express, { type Request, Response, NextFunction } from "express";
+import express, { type Request, type Application, Response, NextFunction } from "express";
 // Load environment variables from .env or env in development
 import dotenv from "dotenv";
 import fs from "fs";
@@ -19,7 +19,7 @@ import { testGmailSMTPConnection } from './services/email';
 import { createServer } from "http";
 
 // This is for Vercel
-let handler: Express | undefined = undefined;
+let handler: Application | undefined = undefined;
 
 const app = express();
 app.use(express.json());
