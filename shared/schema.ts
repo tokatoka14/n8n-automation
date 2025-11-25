@@ -1,6 +1,7 @@
 import { sql } from "drizzle-orm";
 import { pgTable, text, varchar, timestamp, jsonb, pgEnum } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
+import { emitKeypressEvents } from "readline";
 import { z } from "zod";
 
 // Define interface for attached files
@@ -93,3 +94,4 @@ export type User = typeof users.$inferSelect;
 export type Order = typeof orders.$inferSelect;
 export type InsertOrder = z.infer<typeof insertOrderSchema>;
 export type UpdateOrder = z.infer<typeof updateOrderSchema>;
+emitKeypressEvents

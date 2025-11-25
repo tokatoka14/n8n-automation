@@ -6,6 +6,8 @@ import { sendOrderConfirmationEmail, sendOrderNotificationEmail } from "./servic
 import { sendOrderNotificationToSlack } from "./services/slack";
 import multer from "multer";
 import path from "path";
+import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+import { SiKotlin } from "react-icons/si";
 
 const upload = multer({
   dest: 'uploads/',
@@ -98,13 +100,21 @@ export async function registerRoutes(app: Application): Promise<Server> {
         attachedFiles,
       });
 
-      // Send notifications
+      // Send notifications (log results so failures are visible in logs)
       try {
-        await Promise.all([
-          sendOrderConfirmationEmail(order.email, order.fullName, order.orderId),
-          sendOrderNotificationEmail(['svimonishvilitoka@gmail.com', 'giorginatsvlishvili2010@gmail.com'], order),
-          sendOrderNotificationToSlack(order)
-        ]);
+        const confirmationOk = await sendOrderConfirmationEmail(order.email, order.fullName, order.orderId);
+        console.log(`sendOrderConfirmationEmail -> ${confirmationOk ? 'OK' : 'FAILED'} for ${order.email}`);
+
+        const adminRecipients = [process.env.FROM_EMAIL || process.env.GMAIL_USER || 'business.nexflow@gmail.com', 'svimonishvilitoka@gmail.com', 'giorginatsvlishvili2010@gmail.com'];
+        const notifyOk = await sendOrderNotificationEmail(adminRecipients, order);
+        console.log(`sendOrderNotificationEmail -> ${notifyOk ? 'OK' : 'FAILED'}`);
+
+        try {
+          await sendOrderNotificationToSlack(order);
+          console.log('sendOrderNotificationToSlack -> OK');
+        } catch (slackErr) {
+          console.error('sendOrderNotificationToSlack -> FAILED', slackErr);
+        }
       } catch (notificationError) {
         console.error('Notification error:', notificationError);
         // Don't fail the order creation if notifications fail
@@ -190,4 +200,4 @@ export async function registerRoutes(app: Application): Promise<Server> {
 
   const httpServer = createServer(app);
   return httpServer;
-}
+} 

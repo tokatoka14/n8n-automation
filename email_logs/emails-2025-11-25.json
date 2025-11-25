@@ -1,0 +1,108 @@
+[
+  {
+    "timestamp": "2025-11-25T09:46:08.123Z",
+    "to": "business.nexflow@gmail.com",
+    "from": "business.nexflow@gmail.com",
+    "subject": "SendGrid Test Email (Logged)",
+    "text": "This is a test email to verify SendGrid connection.",
+    "htmlLength": 0
+  },
+  {
+    "timestamp": "2025-11-25T09:47:39.762Z",
+    "to": "svimonishvilitoka@gmail.com",
+    "from": "business.nexflow@gmail.com",
+    "subject": "შეკვეთის დადასტურება - ORD-2025-0001",
+    "text": "",
+    "htmlLength": 300
+  },
+  {
+    "timestamp": "2025-11-25T09:47:39.980Z",
+    "to": [
+      "business.nexflow@gmail.com",
+      "svimonishvilitoka@gmail.com",
+      "giorginatsvlishvili2010@gmail.com"
+    ],
+    "from": "business.nexflow@gmail.com",
+    "subject": "🆕 ახალი შეკვეთა მიღებულია - ORD-2025-0001",
+    "text": "",
+    "htmlLength": 6997
+  },
+  {
+    "timestamp": "2025-11-25T10:05:51.317Z",
+    "to": "business.nexflow@gmail.com",
+    "from": "business.nexflow@gmail.com",
+    "subject": "[Test] Email Service Ready (File Logging)",
+    "text": "This is a test email logged to file system.",
+    "htmlLength": 0
+  },
+  {
+    "timestamp": "2025-11-25T10:16:57.320Z",
+    "from": "business.nexflow@gmail.com",
+    "to": [
+      "marisvimonishvili12@gmail.com"
+    ],
+    "subject": "შეკვეთის დადასტურება - ORD-2025-0001",
+    "hasHtml": true,
+    "htmlLength": 300,
+    "hasText": false,
+    "textLength": 0,
+    "provider": "file-logging"
+  },
+  {
+    "timestamp": "2025-11-25T10:16:57.336Z",
+    "from": "business.nexflow@gmail.com",
+    "to": [
+      "business.nexflow@gmail.com",
+      "svimonishvilitoka@gmail.com",
+      "giorginatsvlishvili2010@gmail.com"
+    ],
+    "subject": "🆕 ახალი შეკვეთა მიღებულია - ORD-2025-0001",
+    "hasHtml": true,
+    "htmlLength": 6980,
+    "hasText": false,
+    "textLength": 0,
+    "provider": "file-logging"
+  },
+  {
+    "timestamp": "2025-11-25T10:46:08.456Z",
+    "from": "business.nexflow@gmail.com",
+    "to": [
+      "svimonishvilitoka@gmail.com"
+    ],
+    "subject": "შეკვეთის დადასტურება - ORD-2025-0001",
+    "htmlLength": 300,
+    "provider": "file-logging"
+  },
+  {
+    "timestamp": "2025-11-25T10:46:29.494Z",
+    "from": "business.nexflow@gmail.com",
+    "to": [
+      "business.nexflow@gmail.com",
+      "svimonishvilitoka@gmail.com",
+      "giorginatsvlishvili2010@gmail.com"
+    ],
+    "subject": "🆕 ახალი შეკვეთა მიღებულია - ORD-2025-0001",
+    "htmlLength": 6988,
+    "provider": "file-logging"
+  },
+  {
+    "timestamp": "2025-11-25T11:12:13.622Z",
+    "from": "business.nexflow@gmail.com",
+    "to": [
+      "business.nexflow@gmail.com"
+    ],
+    "subject": "შეკვეთის დადასტურება - ORD-TEST-123",
+    "htmlLength": 294,
+    "provider": "file-logging"
+  },
+  {
+    "timestamp": "2025-11-25T11:12:34.704Z",
+    "from": "business.nexflow@gmail.com",
+    "to": [
+      "business.nexflow@gmail.com"
+    ],
+    "subject": "🆕 ახალი შეკვეთა მიღებულია - ORD-TEST-123",
+    "htmlLength": 5775,
+    "provider": "file-logging"
+  }
+]

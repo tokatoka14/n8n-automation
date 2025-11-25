@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 
-// Load standard .env first
+// Load standard .env first - MUST happen before any other imports that use env vars
 dotenv.config({ override: true });
 // Additionally load root "env" file if it exists (committed format)
 (() => {
@@ -13,9 +13,32 @@ dotenv.config({ override: true });
     dotenv.config({ path: altEnvPath, override: true });
   }
 })();
+
+// Sanitize and validate critical environment variables immediately after loading
+(() => {
+  // Trim email-related vars
+  if (process.env.FROM_EMAIL) {
+    process.env.FROM_EMAIL = process.env.FROM_EMAIL.trim();
+  }
+  if (process.env.GMAIL_USER) {
+    process.env.GMAIL_USER = process.env.GMAIL_USER.trim();
+  }
+  // Trim GMAIL_APP_PASSWORD if present (remove all whitespace)
+  if (process.env.GMAIL_APP_PASSWORD) {
+    process.env.GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD.replace(/\s/g, '');
+  }
+
+  // Validate required email config
+  const required = ['FROM_EMAIL', 'GMAIL_USER', 'GMAIL_APP_PASSWORD'];
+  const missing = required.filter(key => !process.env[key]);
+  if (missing.length > 0) {
+    console.error(`❌ [CONFIG] Missing required environment variables: ${missing.join(', ')}`);
+    console.error('   Please update your .env file with these values');
+  }
+})();
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import { testGmailSMTPConnection } from './services/email';
+import { runEmailDiagnostics } from './services/email';
 import { createServer } from "http";
 
 // This is for Vercel
@@ -77,7 +100,7 @@ app.use((req, res, next) => {
   }
 
   // Test Gmail SMTP connection on server startup
-  testGmailSMTPConnection();
+  runEmailDiagnostics();
 
   // In Vercel, we export the app and don't listen on a port
   // The Vercel runtime will handle the incoming requests.

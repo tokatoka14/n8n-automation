@@ -76,7 +76,7 @@ export default function Contact() {
                         {georgianContent.contact.phone}
                       </h3>
                       <p className="text-muted-foreground font-firago">
-                        +995 599 123 456<br/>
+                        +995 574 20 12 21<br/>
                         <span className="text-sm">{georgianContent.contact.workingHours}</span>
                       </p>
                     </div>
@@ -96,8 +96,7 @@ export default function Contact() {
                         {georgianContent.contact.email}
                       </h3>
                       <p className="text-muted-foreground font-firago">
-                        info@n8n-georgia.com<br/>
-                        support@n8n-georgia.com
+                        business.nexflow@gmail.com
                       </p>
                     </div>
                   </div>
